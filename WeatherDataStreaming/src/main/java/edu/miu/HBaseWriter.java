@@ -26,6 +26,7 @@ public class HBaseWriter {
             Put put = new Put(Bytes.toBytes(city));
             put.addColumn(Bytes.toBytes("data"), Bytes.toBytes("temperature"), Bytes.toBytes(String.valueOf(temperature)));
             put.addColumn(Bytes.toBytes("data"), Bytes.toBytes("humidity"), Bytes.toBytes(String.valueOf(humidity)));
+            put.addColumn(Bytes.toBytes("data"), Bytes.toBytes("timestamp"), Bytes.toBytes(String.valueOf(timestamp)));
             table.put(put);
         } catch (Exception e) {
             e.printStackTrace();
