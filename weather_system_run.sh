@@ -66,7 +66,7 @@ echo "Starting Spark application..."
 gnome-terminal -- spark-submit \
     --class edu.miu.WeatherDataStreamingApp \
     --master local[*] \
-    target/WeatherStreaming.jar &
+    WeatherDataStreaming.jar &
 
 # Run WeatherDataFetcher in a new terminal
 echo "Starting Weather Data Fetcher..."
