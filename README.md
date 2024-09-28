@@ -29,6 +29,22 @@ Weather System is integrating OpenWeatherMap API, Apache Flume, Kafka, Spark str
 - Git (for version control)
 - Integrated Development Environment Eclipse
 
+# For automatic running all components using shell script do these instructions
+- Download the project https://github.com/dinomov/weather-system-bdt-project/archive/refs/heads/main.zip
+  unzip it
+- Download kafka from here https://kafka.apache.org/downloads
+  make sure it is in this address KAFKA_DIR="/home/cloudera/Downloads/kafka_2.13-3.8.0",
+  or change KAFKA_DIR in weather_system_run.sh file in the project folder.
+- enter into project folder and run:
+  ```sh
+  chmod +x weather_system_run.sh 
+  
+  # then run shell script
+  ./weather_system_run.sh
+  ```
+
+
+# For manual running the system components follow below steps
 # Setup Environment in Cloudera VM
 - # Install Apache Kafka
   Download from here https://kafka.apache.org/downloads
@@ -38,6 +54,7 @@ Weather System is integrating OpenWeatherMap API, Apache Flume, Kafka, Spark str
     cd kafka_2.13-3.4.0
     ```
 
+  You can use zookeeper which is already running in Cloudera VM or run another one which comes with kafka
   Start zookeeper, before change port, set 12181 in file config/zookeeper.properties, HBase uses its default port
     ```sh
     bin/zookeeper-server-start.sh config/zookeeper.properties
@@ -98,8 +115,8 @@ Weather System is integrating OpenWeatherMap API, Apache Flume, Kafka, Spark str
 - # RUN the Weather System
   once we run kafka already above now run following components step by step
 
-    - clone repository from here https://github.com/dinomov/weather-system-bdt-project
-    - enter weather-system-bdt-project folder
+  - clone repository from here https://github.com/dinomov/weather-system-bdt-project
+  - enter weather-system-bdt-project folder
     ```sh
     cd weather-system-bdt-project folder
     
