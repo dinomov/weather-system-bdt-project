@@ -134,6 +134,6 @@ Weather System is integrating OpenWeatherMap API, Apache Flume, Kafka, Spark str
   ```
 
 - # Time to see the result in Impala
-[![N|Solid](https://github.com/dinomov/weather-system-bdt-project/blob/main/impala.jpg)]    
+[![N|Solid](https://github.com/dinomov/weather-system-bdt-project/blob/main/output-impala-shell.jpg)]    
     
 

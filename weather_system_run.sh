@@ -1,24 +1,15 @@
 #!/bin/bash
 
 # Set variables
-KAFKA_VERSION="3.8.0"
-KAFKA_TGZ="kafka_2.13-$KAFKA_VERSION.tgz"
-KAFKA_DIR="kafka_2.13-$KAFKA_VERSION"
+KAFKA_DIR="/home/cloudera/Downloads/kafka_2.13-3.8.0"
 TOPIC_NAME="weather-data"
 HBASE_TABLE_NAME="weather_data"
 SPOOL_DIR="/home/cloudera/spooldir"
 
-# Download Kafka
-echo "Downloading Kafka..."
-wget https://downloads.apache.org/kafka/$KAFKA_VERSION/$KAFKA_TGZ
-
-# Unzip Kafka
-echo "Unzipping Kafka..."
-tar -xzf $KAFKA_TGZ
 
 # Start Kafka server in the background
 echo "Starting Kafka server..."
-$KAFKA_DIR/bin/kafka-server-start.sh $KAFKA_DIR/config/server.properties &
+gnome-terminal -- $KAFKA_DIR/bin/kafka-server-start.sh $KAFKA_DIR/config/server.properties &
 
 # Wait for Kafka to start
 sleep 10
@@ -63,18 +54,20 @@ gnome-terminal -- flume-ng agent --conf ./conf --conf-file flume.conf --name age
 
 # Start Spark application in a new terminal
 echo "Starting Spark application..."
-gnome-terminal -- spark-submit \
-    --class edu.miu.WeatherDataStreamingApp \
-    --master local[*] \
-    WeatherDataStreaming.jar &
+# spark-submit has 1.6.0 old version which has conflict kafka library, this was challange for me to update spark-submit to be able to use it with our code.
+# but it did not work anyway due to old Cloudera VM, we are running jar in local JVM, instead submitting it to spark
+# gnome-terminal -- bash -c "spark-submit --class edu.miu.WeatherDataStreamingApp --master local[*] WeatherDataStreamingSubmit.jar; exec bash"
+gnome-terminal -- java -jar WeatherDataStreaming.jar &
 
 # Run WeatherDataFetcher in a new terminal
 echo "Starting Weather Data Fetcher..."
 gnome-terminal -- java -jar WeatherDataFetcher.jar &
 
+sleep 60
+
 # Run Impala shell and execute query every 3 minutes
 echo "Entering Impala shell..."
 while true; do
-    impala-shell -c "SELECT * FROM impala_weather_data;"
+    impala-shell -q "SELECT * FROM impala_weather_data;"
     sleep 180 # Wait for 3 minutes
 done
